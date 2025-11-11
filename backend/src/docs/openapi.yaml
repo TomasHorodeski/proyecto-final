@@ -1,0 +1,94 @@
+openapi: 3.0.3
+info:
+  title: API Almacén Las Chicas
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api
+paths:
+  /auth/login:
+    post:
+      summary: Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: { type: string }
+                password: { type: string }
+      responses:
+        '200': { description: OK }
+  /productos:
+    get:
+      summary: Listado de productos
+      parameters:
+        - in: query
+          name: q
+          schema: { type: string }
+      responses:
+        '200': { description: OK }
+    post:
+      security: [{ bearerAuth: [] }]
+      summary: Crear producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
+      responses:
+        '201': { description: Creado }
+  /productos/{id}:
+    get:
+      summary: Detalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        '200': { description: OK }
+    put:
+      security: [{ bearerAuth: [] }]
+      summary: Actualizar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Producto'
+      responses:
+        '200': { description: OK }
+    delete:
+      security: [{ bearerAuth: [] }]
+      summary: Borrar
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer }
+      responses:
+        '204': { description: Sin contenido }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Producto:
+      type: object
+      properties:
+        subcategoria_id: { type: integer }
+        nombre: { type: string }
+        descripcion: { type: string }
+        precio: { type: integer }
+        imagen: { type: string }
+        destacado: { type: integer, enum: [0,1] }
+        promo: { type: integer, enum: [0,1] }

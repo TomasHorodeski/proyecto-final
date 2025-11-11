@@ -1,0 +1,61 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: projectosprog-mysql
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: almacen
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app123
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    networks: [app-network]
+
+  api:
+    build:
+      context: ./utn-examen-backend-js
+      dockerfile: Dockerfile
+    container_name: projectosprog-api
+    environment:
+      PORT: 3000
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: app
+      DB_PASSWORD: app123
+      DB_NAME: almacen
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    networks: [app-network]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: projectosprog-frontend
+    environment:
+      - API_URL=http://api:3000/api
+    depends_on:
+      - api
+    ports:
+      - "4200:4200"
+    networks: [app-network]
+
+networks:
+  app-network:
+
+volumes:
+  mysql_data:
+
+
+
+
