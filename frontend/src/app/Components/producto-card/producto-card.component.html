@@ -1,0 +1,22 @@
+<div class="card">
+  <div class="thumb">
+    <img [src]="producto.imagen || 'assets/images/placeholder.png'" [alt]="producto.nombre">
+  </div>
+  <div class="body">
+    <h3 class="name">{{ producto.nombre }}</h3>
+    <p class="desc">{{ producto.descripcion }}</p>
+    <div class="price">${{ producto.precio | number:'1.0-0' }}</div>
+    <button class="btn" type="button" (click)="addClicked()">
+      <i class="fa-solid fa-cart-shopping"></i> Agregar 
+    </button>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+:host {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.page {
+  flex: 1 0 auto;
+  padding-bottom: 2rem;
+}
+
+app-footer {
+  flex-shrink: 0;
+}
+

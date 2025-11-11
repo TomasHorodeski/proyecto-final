@@ -1,0 +1,19 @@
+<div class="card" style="max-width:720px;margin:0 auto">
+  <img class="thumb" [src]="producto.imagen || 'assets/images/placeholder.png'" [alt]="producto.nombre" style="height:280px">
+  <div class="content">
+    <h2 class="name">{{ producto.nombre }}</h2>
+    <p class="desc" style="display:block;-webkit-line-clamp:unset">{{ producto.descripcion }}</p>
+    <div class="price" style="font-size:20px">${{ producto.precio | number:'1.0-0' }}</div>
+
+    <div style="display:flex;gap:10px;align-items:center;margin-top:10px">
+      <button class="icon-btn" (click)="dec()">−</button>
+      <input type="number" min="1" [(ngModel)]="cantidad" class="qty-input" style="width:64px;height:32px;border:1px solid #ddd;border-radius:8px;padding:0 8px">
+      <button class="icon-btn" (click)="inc()">＋</button>
+      <button class="btn" style="margin-left:auto" (click)="add()">🛒 Agregar</button>
+      <button class="btn" style="background:#eee;color:#111" (click)="close.emit()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+
+

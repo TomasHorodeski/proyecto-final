@@ -1,0 +1,15 @@
+<div class="container" style="padding-top:16px;">
+  <h1>Productos</h1>
+
+  <div *ngIf="error" style="color:#ff6b6b">{{ error }}</div>
+  <div *ngIf="loading">Cargando…</div>
+
+  <div class="grid" *ngIf="!loading">
+    <app-producto-card *ngFor="let p of productos" [producto]="p" (add)="added($event)"></app-producto-card>
+  </div>
+
+  <div class="muted" *ngIf="!loading && !productos.length">No hay productos para mostrar.</div>
+</div>
+
+
+

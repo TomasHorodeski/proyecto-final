@@ -1,0 +1,19 @@
+<div class="page-shell">
+  <app-navbar></app-navbar>
+
+  <main class="page route">
+    <router-outlet></router-outlet>
+  </main>
+
+  <app-footer class="site-footer"></app-footer>
+</div>
+
+<div class="toast-wrap" *ngIf="toasts.length">
+  <div class="toast" [class.ok]="t.type==='ok'" [class.warn]="t.type==='warn'"
+       *ngFor="let t of toasts">{{ t.text }}</div>
+</div>
+
+
+
+
+

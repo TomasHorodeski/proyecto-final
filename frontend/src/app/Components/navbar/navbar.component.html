@@ -1,0 +1,110 @@
+<nav class="navbar">
+  <div class="container nav-inner">
+
+    <button class="categories-btn" (click)="toggleCategories()">
+      <i class="fa-solid fa-bars"></i>
+      <span>Categorías</span>
+    </button>
+
+    <a class="brand" routerLink="/">
+      <img src="assets/images/logo/LOGOALMACEN.jpeg" alt="Almacén Las Chicas">
+      <div class="brand-text">
+        <strong>Almacén</strong>
+        <span>Las Chicas</span>
+      </div>
+    </a>
+
+    <div class="search">
+      <input [(ngModel)]="search" (keyup.enter)="buscar()" type="search" placeholder="Buscar productos...">
+      <button (click)="buscar()" aria-label="Buscar">
+        <i class="fa-solid fa-search"></i>
+      </button>
+    </div>
+
+    <ul class="nav-links">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Inicio</a></li>
+      <li><a routerLink="/nosotros" routerLinkActive="active">Nosotros</a></li>
+      <li><a routerLink="/productos" routerLinkActive="active">Productos</a></li>
+      <li><a routerLink="/promociones" routerLinkActive="active">Promociones</a></li>
+      <li><a href="#footer" routerLinkActive="active">Contacto</a></li>
+    </ul>
+
+    <div class="actions">
+      <a (click)="openCart()" class="icon-btn" title="Carrito">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="badge" *ngIf="carrito.items.length">{{ carrito.items.length }}</span>
+      </a>
+
+      <a class="icon-btn auth-btn" routerLink="/auth" title="Iniciar sesión">
+        <i class="fa-solid fa-user"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- Backdrop para drawers -->
+  <div class="drawer-backdrop" *ngIf="categoriesOpen || cartOpen" (click)="closeDrawers()"></div>
+
+  <!-- Drawer de Categorías -->
+  <aside class="drawer left" *ngIf="categoriesOpen">
+    <header>
+      <strong>Categorías</strong>
+      <button class="icon-btn" (click)="closeCategories()"><i class="fa-solid fa-xmark"></i></button>
+    </header>
+
+    <div class="drawer-body">
+      <div class="cat" *ngFor="let c of categorias">
+        <div class="cat-title">{{ c.nombre }}</div>
+
+        <div class="sub" *ngIf="mapSub[c.id]?.length">
+          <a (click)="goCategoria(c.nombre, s.nombre)" *ngFor="let s of mapSub[c.id]">{{ s.nombre }}</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Drawer del Carrito -->
+  <aside class="drawer-cart right" *ngIf="cartOpen">
+    <header>
+      <strong>Tu carrito</strong>
+      <button class="icon-btn" (click)="closeCart()"><i class="fa-solid fa-xmark"></i></button>
+    </header>
+
+    <div class="drawer-body">
+      <div class="empty" *ngIf="!carrito.items.length">Aún no agregaste productos.</div>
+
+      <!-- ÍTEM: Producto — [−] [cantidad] [+] [🗑] -->
+      <div class="cart-item" *ngFor="let i of carrito.items">
+        <div class="ci-row">
+          <div class="ci-name">
+            <div class="name">{{ i.name }}</div>
+            <div class="price">${{ i.price | number:'1.0-0' }}</div>
+          </div>
+
+          <div class="ci-controls">
+            <button class="btn btn-qty" (click)="carrito.changeQty(i.productId, -1)">−</button>
+            <input class="ci-qty" type="number" min="1" [value]="i.quantity"
+                   (change)="carrito.setQty(i.productId, $any($event.target).value)">
+            <button class="btn btn-qty" (click)="carrito.changeQty(i.productId, 1)">+</button>
+
+            <button class="btn btn-del" title="Quitar" (click)="carrito.remove(i.productId)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="drawer-footer" *ngIf="carrito.items.length">
+      <div class="total"><strong>Total:</strong> ${{ carrito.total | number:'1.0-0' }}</div>
+      <div class="actions">
+        <a class="btn" [href]="carrito.whatsAppLink()" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> Pedir por WhatsApp
+        </a>
+        <button class="btn btn-outline" type="button" (click)="carrito.clear()">Vaciar</button>
+      </div>
+    </footer>
+  </aside>
+</nav>
+
+
+

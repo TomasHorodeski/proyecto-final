@@ -1,0 +1,20 @@
+<div class="container" style="max-width:520px; padding:20px 0 40px;">
+  <h1>Ingresar</h1>
+
+  <form (ngSubmit)="submit()" autocomplete="off" novalidate>
+    <label>Email</label>
+    <input class="input" type="email" [(ngModel)]="email" name="email" required placeholder="admin@demo.com" />
+
+    <label>Contraseña</label>
+    <input class="input" type="password" [(ngModel)]="password" name="password" required placeholder="••••••••" />
+
+    <button class="button primary" type="submit" [disabled]="loading">
+      {{ loading ? 'Ingresando…' : 'Ingresar' }}
+    </button>
+
+    <div *ngIf="error" style="color:#ff6b6b; margin-top:12px;">{{ error }}</div>
+  </form>
+</div>
+
+
+

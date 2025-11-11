@@ -1,0 +1,70 @@
+<div class="container" style="margin-top:18px;">
+  <h1>Admin de Productos</h1>
+
+  <div class="toolbar">
+    <input class="input" placeholder="Buscar..." [(ngModel)]="q" (keyup.enter)="buscar()" />
+    <button class="button" (click)="buscar()">Buscar</button>
+    <span class="spacer"></span>
+    <button class="button primary" (click)="nuevo()">+ Nuevo</button>
+  </div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+  <div *ngIf="loading">Cargando...</div>
+
+  <table class="table" *ngIf="!loading && productos.length">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Precio</th>
+        <th>Subcat. ID</th>
+        <th>Imagen</th>
+        <th style="width:160px">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let p of productos">
+        <td>{{ p.id }}</td>
+        <td>{{ p.nombre }}</td>
+        <td>$ {{ p.precio | number:'1.2-2' }}</td>
+        <td>{{ p.subcategoria_id }}</td>
+        <td>
+          <a [href]="p.imagen || ''" target="_blank">{{ p.imagen ? 'link' : '-' }}</a>
+        </td>
+        <td>
+          <button class="button" (click)="editar(p)">Editar</button>
+          <button class="button" (click)="borrar(p)">Borrar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && !productos.length" class="muted">Sin resultados</div>
+
+  <div class="modal" *ngIf="editing">
+    <div class="modal-card">
+      <h3>{{ editing!.id ? 'Editar' : 'Nuevo' }} producto</h3>
+
+      <label>Nombre</label>
+      <input class="input" [(ngModel)]="editing!.nombre" />
+
+      <label>Descripción</label>
+      <textarea class="input" rows="3" [(ngModel)]="editing!.descripcion"></textarea>
+
+      <label>Precio</label>
+      <input class="input" type="number" step="0.01" [(ngModel)]="editing!.precio" />
+
+      <label>Subcategoría ID</label>
+      <input class="input" type="number" [(ngModel)]="editing!.subcategoria_id" />
+
+      <label>Imagen (URL)</label>
+      <input class="input" [(ngModel)]="editing!.imagen" />
+
+      <div class="actions">
+        <button class="button" (click)="cancelar()">Cancelar</button>
+        <button class="button primary" (click)="guardar()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

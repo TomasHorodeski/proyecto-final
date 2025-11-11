@@ -1,0 +1,49 @@
+<div class="cart-container">
+  <div class="cart-header">
+    <h3>Tu carrito</h3>
+    <button class="close" (click)="vaciar()" title="Vaciar todo">×</button>
+  </div>
+
+  <ng-container *ngIf="(items$ | async) as items; else empty">
+    <div class="cart-list">
+      <div class="cart-row" *ngFor="let i of items; trackBy: trackById">
+        <div class="prod">{{ i.name }}</div>
+
+        <div class="controls">
+          <button class="btn btn-qty" (click)="dec(i.productId)">−</button>
+          <input class="qty" type="number" min="1" [value]="i.quantity"
+                 (change)="setQty(i.productId, $event)">
+          <button class="btn btn-qty" (click)="inc(i.productId)">+</button>
+          <button class="btn btn-del" (click)="rm(i.productId)" title="Eliminar">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+              <path d="M3 6h18M9 6V4h6v2m-7 4v8m4-8v8m4-8v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cart-footer">
+      <div class="total">
+        <span>Total:</span>
+        <strong>${{ (total$ | async) | number:'1.0-0' }}</strong>
+      </div>
+      <div class="actions">
+        <a class="btn btn-wa" [href]="waLink()" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        <button class="btn btn-ghost" (click)="vaciar()">Vaciar</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #empty>
+    <p class="empty">No hay productos en el carrito.</p>
+  </ng-template>
+</div>
+
+
+
+
+
+
+
+

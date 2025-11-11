@@ -1,0 +1,22 @@
+<div class="container" style="padding-top:16px;">
+  <div class="banner">
+    <img [src]="images[idx]" alt="Banner">
+    <button class="nav prev" (click)="prev()">‹</button>
+    <button class="nav next" (click)="next()">›</button>
+
+    <div class="dots">
+      <button *ngFor="let _ of images; index as i"
+              [class.active]="i===idx" (click)="go(i)"></button>
+    </div>
+  </div>
+
+  <h2 style="margin:24px 0 12px;">Productos destacados</h2>
+</div>
+
+
+
+
+
+
+
+
